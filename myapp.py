@@ -34,6 +34,9 @@ class Survey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, index=True) #日期
     daily = db.Column(db.Float) #当日收益
+    annualized_return = db.Column(db.Float) #策略年化收益率
+    benchmark_return = db.Column(db.Float) #基准当日涨幅
+    B_A_return = db.Column(db.Float) #基准年化涨幅
     profit = db.Column(db.Float) #累计收益
     sharp = db.Column(db.Float) #夏普比率
     marketValue = db.Column(db.Float) #持仓市值
