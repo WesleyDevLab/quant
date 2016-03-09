@@ -134,7 +134,7 @@ def index():
     return render_template('index.html', strategies = strategies)
 
 
-@app.route('/strategy/<name>')
+@app.route('/test')
 def strategy(name):
     today = datetime.date.today()
     date1 = today
