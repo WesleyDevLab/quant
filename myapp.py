@@ -127,11 +127,11 @@ def index():
         
         survey = Survey.query.filter_by(strategy_id=id,date=today).first()
         if survey == None:
-            strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':None,'profit':None,'start':start,'end':end}
+            strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':'--','profit':'--','start':start,'end':end}
         else:
             strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':survey.daily,'profit':survey.profit,'start':start,'end':end}
 
-    return render_template('test.html', strategies = strategies)
+    return render_template('index.html', strategies = strategies)
 
 
 @app.route('/strategy/<name>')
