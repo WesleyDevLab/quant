@@ -126,8 +126,10 @@ def index():
         id = strategies_[i].id
         
         survey = Survey.query.filter_by(strategy_id=id,date=today).first()
-    
-        strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':survey.daily,'profit':survey.profit,'start':start,'end':end}
+        if survey == None:
+            strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':None,'profit':None,'start':start,'end':end}
+        else:
+            strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':survey.daily,'profit':survey.profit,'start':start,'end':end}
 
     return render_template('index.html', strategies = strategies)
 
@@ -146,45 +148,56 @@ def strategy(name):
 
         survey_ = Survey.query.filter_by(strategy_id=sttg_id).all()
         
-        survey = {'date':list(range(len(survey_))),'daily':list(range(len(survey_))),'profit':list(range(len(survey_))),'sharp':list(range(len(survey_))),'marketValue':list(range(len(survey_))),'enable':list(range(len(survey_))),'benchmark':list(range(len(survey_))),'pullback':list(range(len(survey_))),'alpha':list(range(len(survey_))),'beta':list(range(len(survey_))),'information':list(range(len(survey_))),'fluctuation':list(range(len(survey_)))}
+        if survey_ == None:
+            survey = {'date':[],'daily':[],'profit':[],'sharp':[],'marketValue':[],'enable':[],'benchmark':[],'pullback':[],'alpha':[],'beta':[],'information':[],'fluctuation':[]}
+        else:
+            survey = {'date':list(range(len(survey_))),'daily':list(range(len(survey_))),'profit':list(range(len(survey_))),'sharp':list(range(len(survey_))),'marketValue':list(range(len(survey_))),'enable':list(range(len(survey_))),'benchmark':list(range(len(survey_))),'pullback':list(range(len(survey_))),'alpha':list(range(len(survey_))),'beta':list(range(len(survey_))),'information':list(range(len(survey_))),'fluctuation':list(range(len(survey_)))}
         
-        for i in range(len(survey_)):
-            survey['date'][i] = int(survey_[i].date.strftime('%s')+'000')
-            survey['daily'][i] = survey_[i].daily
-            survey['profit'][i] = survey_[i].profit
-            survey['sharp'][i] = survey_[i].sharp
-            survey['marketValue'][i] = survey_[i].marketValue
-            survey['enable'][i] = survey_[i].enable
-            survey['benchmark'][i] = Benchmark.query.filter_by(date=survey_[i].date).first().index
-            survey['pullback'][i] = survey_[i].pullback
-            survey['alpha'][i] = survey_[i].alpha
-            survey['beta'][i] = survey_[i].beta
-            survey['information'][i] = survey_[i].information
-            survey['fluctuation'][i] = survey_[i].fluctuation
+            for i in range(len(survey_)):
+                survey['date'][i] = int(survey_[i].date.strftime('%s')+'000')
+                survey['daily'][i] = survey_[i].daily
+                survey['profit'][i] = survey_[i].profit
+                survey['sharp'][i] = survey_[i].sharp
+                survey['marketValue'][i] = survey_[i].marketValue
+                survey['enable'][i] = survey_[i].enable
+                survey['benchmark'][i] = Benchmark.query.filter_by(date=survey_[i].date).first().index
+                survey['pullback'][i] = survey_[i].pullback
+                survey['alpha'][i] = survey_[i].alpha
+                survey['beta'][i] = survey_[i].beta
+                survey['information'][i] = survey_[i].information
+                survey['fluctuation'][i] = survey_[i].fluctuation
 
         transfer_ = Transfer.query.filter_by(strategy_id=sttg_id,date_id=Survey.query.filter_by(strategy_id=sttg_id,date=today).first().id).all()
-        transfer = list(range(len(transfer_)))
-        
-        for i in range(len(transfer_)):
-            deal_amount = '--'
-            deal_time = '--'
-            cost = '--'
-            if transfer_[i].dealAmount != None:
-                deal_amount = transfer_[i].dealAmount
 
-            if transfer_[i].dealTime != None:
-                deal_time = transfer_[i].dealTime.strftime('%H:%M:%S')
+        if transfer_ == None:
+            transfer = []
+        else:
+            transfer = list(range(len(transfer_)))
+        
+            for i in range(len(transfer_)):
+                deal_amount = '--'
+                deal_time = '--'
+                cost = '--'
+                if transfer_[i].dealAmount != None:
+                    deal_amount = transfer_[i].dealAmount
+
+                if transfer_[i].dealTime != None:
+                    deal_time = transfer_[i].dealTime.strftime('%H:%M:%S')
             
-            if transfer_[i].cost != None:
-                cost = transfer_[i].cost
+                if transfer_[i].cost != None:
+                        cost = transfer_[i].cost
             
-            transfer[i] = {'ticker':transfer_[i].ticker,'name':transfer_[i].name,'direction':transfer_[i].direction,'orderAmount':transfer_[i].orderAmount,'dealAmount':deal_amount,'orderTime':transfer_[i].orderTime.strftime('%H:%M:%S'),'dealTime':deal_time,'cost':cost,'status':transfer_[i].status}
+                transfer[i] = {'ticker':transfer_[i].ticker,'name':transfer_[i].name,'direction':transfer_[i].direction,'orderAmount':transfer_[i].orderAmount,'dealAmount':deal_amount,'orderTime':transfer_[i].orderTime.strftime('%H:%M:%S'),'dealTime':deal_time,'cost':cost,'status':transfer_[i].status}
 
         positions_ = Position.query.filter_by(strategy_id=sttg_id,date_id=Survey.query.filter_by(strategy_id=sttg_id,date=date1).first().id).all()
-        positions = list(range(len(positions_)))
+        
+        if positions_ == None:
+            positions = []
+        else:
+            positions = list(range(len(positions_)))
 
-        for i in range(len(positions_)):
-            positions[i] = {'ticker':positions_[i].ticker,'name':positions_[i].name,'amount':positions_[i].amount,'cost':positions_[i].cost,'price':positions_[i].price,'value':positions_[i].value,'increase':positions_[i].increase,'weight':positions_[i].weight}
+            for i in range(len(positions_)):
+                positions[i] = {'ticker':positions_[i].ticker,'name':positions_[i].name,'amount':positions_[i].amount,'cost':positions_[i].cost,'price':positions_[i].price,'value':positions_[i].value,'increase':positions_[i].increase,'weight':positions_[i].weight}
 
         today = today.strftime('%Y-%m-%d')
 
