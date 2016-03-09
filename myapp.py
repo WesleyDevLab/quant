@@ -105,7 +105,7 @@ class Benchmark(db.Model):
 
 @app.route('/')
 def index():
-    today = datetime.date(2016,1,29)
+    today = datetime.date.today()
 
     strategies_ = Strategy.query.all()
     strategies = list(range(len(strategies_)))
@@ -134,7 +134,7 @@ def index():
 
 @app.route('/strategy/<name>')
 def strategy(name):
-    today = datetime.date(2016,1,29)
+    today = datetime.date.today()
     date1 = today
     
     strategy_ = Strategy.query.filter_by(name=name).first()
