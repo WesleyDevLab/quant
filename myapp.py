@@ -131,7 +131,7 @@ def index():
         else:
             strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':survey.daily,'profit':survey.profit,'start':start,'end':end}
 
-    return render_template('index.html', strategies = strategies)
+    return render_template('test.html', strategies = strategies)
 
 
 @app.route('/strategy/<name>')
