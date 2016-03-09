@@ -134,7 +134,7 @@ def index():
     return render_template('index.html', strategies = strategies)
 
 
-@app.route('/test')
+@app.route('/strategy/<name>')
 def strategy(name):
     today = datetime.date.today()
     date1 = today
@@ -147,6 +147,7 @@ def strategy(name):
         sttg_id = strategy_.id
 
         survey_ = Survey.query.filter_by(strategy_id=sttg_id).all()
+        survey = None
         
         if survey_ == None:
             survey = None
@@ -160,7 +161,11 @@ def strategy(name):
                 survey['sharp'][i] = survey_[i].sharp
                 survey['marketValue'][i] = survey_[i].marketValue
                 survey['enable'][i] = survey_[i].enable
-                survey['benchmark'][i] = Benchmark.query.filter_by(date=survey_[i].date).first().index
+                index = Benchmark.query.filter_by(date=survey_[i].date).first()
+                if index == None:
+                    survey['benchmark'][i] = None
+                else:
+                    survey['benchmark'][i] = index.index
                 survey['pullback'][i] = survey_[i].pullback
                 survey['alpha'][i] = survey_[i].alpha
                 survey['beta'][i] = survey_[i].beta
@@ -168,10 +173,9 @@ def strategy(name):
                 survey['fluctuation'][i] = survey_[i].fluctuation
 
         transfer_ = Transfer.query.filter_by(strategy_id=sttg_id,date_id=Survey.query.filter_by(strategy_id=sttg_id,date=today).first().id).all()
+        transfer = None
 
-        if transfer_ == None:
-            transfer = None
-        else:
+        if transfer_ != None:
             transfer = list(range(len(transfer_)))
         
             for i in range(len(transfer_)):
@@ -190,10 +194,9 @@ def strategy(name):
                 transfer[i] = {'ticker':transfer_[i].ticker,'name':transfer_[i].name,'direction':transfer_[i].direction,'orderAmount':transfer_[i].orderAmount,'dealAmount':deal_amount,'orderTime':transfer_[i].orderTime.strftime('%H:%M:%S'),'dealTime':deal_time,'cost':cost,'status':transfer_[i].status}
 
         positions_ = Position.query.filter_by(strategy_id=sttg_id,date_id=Survey.query.filter_by(strategy_id=sttg_id,date=date1).first().id).all()
+        positions = None
         
-        if positions_ == None:
-            positions = []
-        else:
+        if positions_ != None:
             positions = list(range(len(positions_)))
 
             for i in range(len(positions_)):
