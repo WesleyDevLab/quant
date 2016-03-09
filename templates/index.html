@@ -102,13 +102,28 @@
     <tr class="strategy-item run">
         <td><a href="/strategy/{{i.name}}" class="detail">{{i.name}}</a></td>
         <td><span class="status-indicator">{{i.status}}</span></td>
-        
+        {% if i.daily == '--' %}
+        <td><span class="value">{{i.daily}}%</span></td>
+        {% else %}
         {% if i.daily > 0 %}
         <td><span class="state-rise">{{i.daily}}%</span></td>
         {% else %}
         <td><span class="state-fall">{{i.daily}}%</span></td>
         {% endif %}
-
+        {% endif %}
+        
+        {% if i.daily == '--' %}
+        <td><span class="value">{{i.profit}}%</span></td>
+        {% else %}
+        {% if i.profit > 0 %}
+        <td><span class="state-rise">{{i.profit}}%</span></td>
+        {% else %}
+        <td><span class="state-fall">{{i.profit}}%</span></td>
+        {% endif %}
+        {% endif %}
+        
+        <td>{{i.start}}</td>
+        <td>{{i.end}}</td>
     </tr>
     {% endfor %}
 </tbody>
