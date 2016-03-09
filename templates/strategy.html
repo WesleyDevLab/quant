@@ -205,7 +205,7 @@
                                           var strategy_data;
                                           var benchmark_data;
                                           
-                                          if ({{survey}} != null)
+                                          if ('{{survey != None}}' == 'True')
                                           {
                                           var dates = {{survey.date}};
                                           var benchmarks = {{survey.benchmark}};
@@ -327,7 +327,7 @@
                                           
                                           var pullback_data
                                           
-                                          if ({{survey}} != null)
+                                          if ('{{survey != None}}' == 'True')
                                           {
                                           var dates = {{survey.date}};
                                           var pullbacks = {{survey.pullback}};
@@ -591,7 +591,7 @@
                                     $(function () {
                                       
                                       var alpha_data
-                                      if ({{survey}} != null)
+                                      if ('{{survey != None}}' == 'True')
                                       {
                                       var dates = {{survey.date}};
                                       var alphas = {{survey.alpha}};
@@ -687,7 +687,7 @@
                                 <script>
                                     $(function () {
                                       var beta_data
-                                      if ({{survey != null}}){
+                                      if ('{{survey != None}}' == 'True'){
                                       var dates = {{survey.date}};
                                       var betas = {{survey.beta}};
                                       
@@ -783,7 +783,7 @@
                                 <script>
                                     $(function () {
                                       var information_data
-                                      if ({{survey}} != null){
+                                      if ('{{survey != None}}' == 'True'){
                                       var dates = {{survey.date}};
                                       var informations = {{survey.information}};
                                       
@@ -877,7 +877,7 @@
                                 <script>
                                     $(function () {
                                       var sharp_data
-                                      if ({{survey != null}}){
+                                      if ('{{survey != None}}' == 'True'){
                                       var dates = {{survey.date}};
                                       var sharps = {{survey.sharp}};
                                       
@@ -973,7 +973,7 @@
                                 <script>
                                     $(function () {
                                       var fluctuation_data
-                                      if ({{survey != null}}){
+                                      if ('{{survey != None}}' == 'True'){
                                       var dates = {{survey.date}};
                                       var fluctuations = {{survey.fluctuation}};
                                       
