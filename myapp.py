@@ -201,7 +201,7 @@ def strategy(name):
 
         today = today.strftime('%Y-%m-%d')
 
-        return render_template('strategy.html',name = name)
+        return render_template('test.html')
 
 
 @app.route('/positions', methods = ['POST'])
