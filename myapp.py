@@ -149,7 +149,7 @@ def strategy(name):
         survey_ = Survey.query.filter_by(strategy_id=sttg_id).all()
         
         if survey_ == None:
-            survey = {'date':[],'daily':[],'profit':[],'sharp':[],'marketValue':[],'enable':[],'benchmark':[],'pullback':[],'alpha':[],'beta':[],'information':[],'fluctuation':[]}
+            survey = None
         else:
             survey = {'date':list(range(len(survey_))),'daily':list(range(len(survey_))),'profit':list(range(len(survey_))),'sharp':list(range(len(survey_))),'marketValue':list(range(len(survey_))),'enable':list(range(len(survey_))),'benchmark':list(range(len(survey_))),'pullback':list(range(len(survey_))),'alpha':list(range(len(survey_))),'beta':list(range(len(survey_))),'information':list(range(len(survey_))),'fluctuation':list(range(len(survey_)))}
         
@@ -170,7 +170,7 @@ def strategy(name):
         transfer_ = Transfer.query.filter_by(strategy_id=sttg_id,date_id=Survey.query.filter_by(strategy_id=sttg_id,date=today).first().id).all()
 
         if transfer_ == None:
-            transfer = []
+            transfer = None
         else:
             transfer = list(range(len(transfer_)))
         

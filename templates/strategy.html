@@ -127,31 +127,51 @@
 </div>
 <ul class="summary clearfix">
     <li>
+        {% if survey != None %}
             {% if survey.profit[-1] > 0 %}
             <span class="value change-up">+{{survey.profit[-1]}}%</span>
             {% else %}
             <span class="value change-down">{{survey.profit[-1]}}%</span>
             {% endif %}
+        {% else %}
+        <span class="value">初始化中</span>
+        {% endif %}
     <span class="name">累计收益</span>
 </li>
 <li>
+    {% if survey != None %}
     {% if survey.daily[-1] > 0 %}
     <span class="value change-up">+{{survey.daily[-1]}}%</span>
     {% else %}
     <span class="value change-down">{{survey.daily[-1]}}%</span>
     {% endif %}
+    {% else %}
+    <span class="value">初始化中</span>
+    {% endif %}
     <span class="name">当日收益</span>
 </li>
 <li>
+    {% if survey != None %}
     <span class="value">{{survey.sharp[-1]}}</span>
+    {% else %}
+    <span class="value">初始化中</span>
+    {% endif %}
     <span class="name">夏普比率</span>
 </li>
 <li>
+    {% if survey != None %}
     <span class="value">{{survey.marketValue[-1]}}</span>
+    {% else %}
+    <span class="value">初始化中</span>
+    {% endif %}
     <span class="name">持仓市值</span>
 </li>
 <li>
+    {% if survey != None %}
     <span class="value">{{survey.enable[-1]}}</span>
+    {% else %}
+    <span class="value">初始化中</span>
+    {% endif %}
     <span class="name">可用金额</span>
 </li>
 </ul>
@@ -183,17 +203,23 @@
                                     <script>
                                         $(function () {
                                           
+                                          var strategy_data;
+                                          var benchmark_data;
+                                          
+                                          if ({{survey}} != null)
+                                          {
                                           var dates = {{survey.date}};
                                           var benchmarks = {{survey.benchmark}};
                                           var enables = {{survey.enable}};
                                           var marketValues = {{survey.marketValue}};
                                           
-                                          var strategy_data = new Array(dates.length);
-                                          var benchmark_data = new Array(dates.length);
+                                          strategy_data = new Array(dates.length);
+                                          benchmark_data = new Array(dates.length);
                                           
                                           for(i = 0; i < dates.length; i++) {
                                           strategy_data[i] = [dates[i],enables[i]+marketValues[i]]
                                           benchmark_data[i] = [dates[i],benchmarks[i]]
+                                          }
                                           }
                                           
                                           Highcharts.setOptions({
@@ -299,13 +325,18 @@
                                     <script>
                                         $(function () {
                                           
+                                          var pullback_data
+                                          
+                                          if ({{survey}} != null)
+                                          {
                                           var dates = {{survey.date}};
                                           var pullbacks = {{survey.pullback}};
                                           
-                                          var pullback_data = new Array(dates.length);
+                                          pullback_data = new Array(dates.length);
                                           
                                           for(i = 0; i < dates.length; i++) {
                                           pullback_data[i] = [dates[i],pullbacks[i]]
+                                          }
                                           }
 
                                           $('#highcharts-4').highcharts('StockChart', {
@@ -423,6 +454,7 @@
                                 <th>当日涨跌</th>
                                 <th>权重</th>
                             </tr>
+                            {% if positions != None %}
                                 {% for i in positions %}
                                 <tr role="row" class="odd">
                                     <td>{{i.ticker}}</td>
@@ -439,6 +471,7 @@
                                     <td>{{i.weight}}%</td>
                                 </tr>
                                 {% endfor %}
+                            {% endif %}
                     </table>
                     </div>
                 </div>
@@ -481,7 +514,7 @@
                             <th>成交均价</th>
                             <th>状态</th>
                         </tr>
-                        
+                        {% if transfer != None %}
                             {% for i in transfer %}
                             <tr role="row" class="odd">
                                 <td>{{i.ticker}}</td>
@@ -499,6 +532,7 @@
                                 <td>{{i.status}}</td>
                             </tr>
                             {% endfor %}
+                            {% endif %}
                 </table>
                 </div>
                 </div>
@@ -514,15 +548,35 @@
                         <dl><dt>时间:</dt>
                             <dd>{{today}}</dd>
                             <dt>阿尔法:</dt>
+                            {% if survey != None %}
                             <dd>{{survey.alpha[-1]}}</dd>
+                            {% else %}
+                            <dd>--</dd>
+                            {% endif %}
                             <dt>贝塔:</dt>
+                            {% if survey != None %}
                             <dd>{{survey.beta[-1]}}</dd>
+                            {% else %}
+                            <dd>--</dd>
+                            {% endif %}
                             <dt>信息比率:</dt>
+                            {% if survey != None %}
                             <dd>{{survey.information[-1]}}</dd>
+                            {% else %}
+                            <dd>--</dd>
+                            {% endif %}
                             <dt>夏普比率:</dt>
+                            {% if survey != None %}
                             <dd>{{survey.sharp[-1]}}</dd>
+                            {% else %}
+                            <dd>--</dd>
+                            {% endif %}
                             <dt>收益波动率:</dt>
+                            {% if survey != None %}
                             <dd>{{survey.fluctuation[-1]}}</dd>
+                            {% else %}
+                            <dd>--</dd>
+                            {% endif %}
                         </dl>
                     </div>
                 </div>
@@ -536,13 +590,17 @@
                                 <script>
                                     $(function () {
                                       
+                                      var alpha_data
+                                      if ({{survey}} != null)
+                                      {
                                       var dates = {{survey.date}};
                                       var alphas = {{survey.alpha}};
                                       
-                                      var alpha_data = new Array(dates.length);
+                                      alpha_data = new Array(dates.length);
                                       
                                       for(i = 0; i < dates.length; i++) {
                                       alpha_data[i] = [dates[i],alphas[i]]
+                                      }
                                       }
                                       
                                       $('#highcharts-8').highcharts('StockChart', {
@@ -628,16 +686,17 @@
                                 </div>
                                 <script>
                                     $(function () {
-                                      
+                                      var beta_data
+                                      if ({{survey != null}}){
                                       var dates = {{survey.date}};
                                       var betas = {{survey.beta}};
                                       
-                                      var beta_data = new Array(dates.length);
+                                      beta_data = new Array(dates.length);
                                       
                                       for(i = 0; i < dates.length; i++) {
                                       beta_data[i] = [dates[i],betas[i]]
                                       }
-                                      
+                                      }
                                       $('#highcharts-12').highcharts('StockChart', {
                                                                  
                                                                  rangeSelector: {
@@ -723,16 +782,17 @@
                                 </div>
                                 <script>
                                     $(function () {
-                                      
+                                      var information_data
+                                      if ({{survey}} != null){
                                       var dates = {{survey.date}};
                                       var informations = {{survey.information}};
                                       
-                                      var information_data = new Array(dates.length);
+                                      information_data = new Array(dates.length);
                                       
                                       for(i = 0; i < dates.length; i++) {
                                       information_data[i] = [dates[i],informations[i]]
                                       }
-                                      
+                                      }
                                       $('#highcharts-16').highcharts('StockChart', {
                                                                  
                                                                  rangeSelector: {
@@ -816,16 +876,17 @@
                                 </div>
                                 <script>
                                     $(function () {
-                                      
+                                      var sharp_data
+                                      if ({{survey != null}}){
                                       var dates = {{survey.date}};
                                       var sharps = {{survey.sharp}};
                                       
-                                      var sharp_data = new Array(dates.length);
+                                      sharp_data = new Array(dates.length);
                                       
                                       for(i = 0; i < dates.length; i++) {
                                       sharp_data[i] = [dates[i],sharps[i]]
                                       }
-                                      
+                                      }
                                       $('#highcharts-20').highcharts('StockChart', {
                                                                  
                                                                  rangeSelector: {
@@ -911,16 +972,17 @@
                                 </div>
                                 <script>
                                     $(function () {
-                                      
+                                      var fluctuation_data
+                                      if ({{survey != null}}){
                                       var dates = {{survey.date}};
                                       var fluctuations = {{survey.fluctuation}};
                                       
-                                      var fluctuation_data = new Array(dates.length);
+                                      fluctuation_data = new Array(dates.length);
                                       
                                       for(i = 0; i < dates.length; i++) {
                                       fluctuation_data[i] = [dates[i],fluctuations[i]]
                                       }
-                                      
+                                      }
                                       $('#highcharts-24').highcharts('StockChart', {
                                                                  
                                                                  rangeSelector: {
