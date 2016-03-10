@@ -129,7 +129,13 @@ def index():
         if survey == None:
             strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':'--','profit':'--','start':start,'end':end}
         else:
-            strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':survey.daily,'profit':survey.profit,'start':start,'end':end}
+            daily = survey.daily
+            if daily == None:
+                daily = '--'
+            profit = survey.profit
+            if profit == None:
+                profit = '--'
+            strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':daily,'profit':profit,'start':start,'end':end}
 
     return render_template('index.html', strategies = strategies)
 
