@@ -158,21 +158,51 @@ def strategy(name):
         
             for i in range(len(survey_)):
                 survey['date'][i] = int(survey_[i].date.strftime('%s')+'000')
-                survey['daily'][i] = round(survey_[i].daily,2)
-                survey['profit'][i] = round(survey_[i].profit,2)
-                survey['sharp'][i] = round(survey_[i].sharp,2)
-                survey['marketValue'][i] = survey_[i].marketValue
-                survey['enable'][i] = survey_[i].enable
+                if survey_[i].daily != None:
+                    survey['daily'][i] = round(survey_[i].daily,2)
+                else:
+                    survey['daily'][i] = survey_[i].daily
+                if survey_[i].profit != None:
+                    survey['profit'][i] = round(survey_[i].profit,2)
+                else:
+                    survey['profit'][i] = survey_[i].profit
+                if survey_[i].sharp != None:
+                    survey['sharp'][i] = round(survey_[i].sharp,2)
+                else:
+                    survey['sharp'][i] = survey_[i].sharp
+                if survey_[i].marketValue != None:
+                    survey['marketValue'][i] = round(survey_[i].marketValue,2)
+                else:
+                    survey['marketValue'][i] = survey_[i].marketValue
+                if survey_[i].enable != None:
+                    survey['enable'][i] = round(survey_[i].enable,2)
+                else:
+                    survey['enable'][i] = survey_[i].enable
                 index = Benchmark.query.filter_by(date=survey_[i].date).first()
                 if index == None:
                     survey['benchmark'][i] = None
                 else:
                     survey['benchmark'][i] = index.index
-                survey['pullback'][i] = round(survey_[i].pullback,2)
-                survey['alpha'][i] = round(survey_[i].alpha,2)
-                survey['beta'][i] = round(survey_[i].beta,2)
-                survey['information'][i] = round(survey_[i].information,2)
-                survey['fluctuation'][i] = round(survey_[i].fluctuation,2)
+                if survey_[i].pullback != None:
+                    survey['pullback'][i] = round(survey_[i].pullback,2)
+                else:
+                    survey['pullback'][i] = survey_[i].pullback
+                if survey_[i].alpha != None:
+                    survey['alpha'][i] = round(survey_[i].alpha,2)
+                else:
+                    survey['alpha'][i] = survey_[i].alpha
+                if survey_[i].beta != None:
+                    survey['beta'][i] = round(survey_[i].beta,2)
+                else:
+                    survey['beta'][i] = survey_[i].beta
+                if survey_[i].information != None:
+                    survey['information'][i] = round(survey_[i].information,2)
+                else:
+                    survey['information'][i] = survey_[i].information
+                if survey_[i].fluctuation != None:
+                    survey['fluctuation'][i] = round(survey_[i].fluctuation,2)
+                else:
+                    survey['fluctuation'][i] = survey_[i].fluctuation
 
         transfer_ = Transfer.query.filter_by(strategy_id=sttg_id,date_id=Survey.query.filter_by(strategy_id=sttg_id,date=today).first().id).all()
         transfer = None
