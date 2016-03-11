@@ -563,31 +563,51 @@
                             <dd>{{today}}</dd>
                             <dt>阿尔法:</dt>
                             {% if survey != None %}
+                            {% if survey.alpha[-1] != None %}
                             <dd>{{survey.alpha[-1]}}</dd>
+                            {% else %}
+                            <dd>--</dd>
+                            {% endif %}
                             {% else %}
                             <dd>--</dd>
                             {% endif %}
                             <dt>贝塔:</dt>
                             {% if survey != None %}
+                            {% if survey.beta[-1] != None %}
                             <dd>{{survey.beta[-1]}}</dd>
+                            {% else %}
+                            <dd>--</dd>
+                            {% endif %}
                             {% else %}
                             <dd>--</dd>
                             {% endif %}
                             <dt>信息比率:</dt>
                             {% if survey != None %}
+                            {% if survey.information[-1] != None %}
                             <dd>{{survey.information[-1]}}</dd>
+                            {% else %}
+                            <dd>--</dd>
+                            {% endif %}
                             {% else %}
                             <dd>--</dd>
                             {% endif %}
                             <dt>夏普比率:</dt>
                             {% if survey != None %}
+                            {% if survey.sharp[-1] != None %}
                             <dd>{{survey.sharp[-1]}}</dd>
+                            {% else %}
+                            <dd>--</dd>
+                            {% endif %}
                             {% else %}
                             <dd>--</dd>
                             {% endif %}
                             <dt>收益波动率:</dt>
                             {% if survey != None %}
+                            {% if survey.fluctuation[-1] != None %}
                             <dd>{{survey.fluctuation[-1]}}</dd>
+                            {% else %}
+                            <dd>--</dd>
+                            {% endif %}
                             {% else %}
                             <dd>--</dd>
                             {% endif %}
