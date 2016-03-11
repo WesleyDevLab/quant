@@ -125,17 +125,15 @@ def index():
 
         id = strategies_[i].id
         
-        survey = Survey.query.filter_by(strategy_id=id,date=today).first()
-        if survey == None:
-            strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':'--','profit':'--','start':start,'end':end}
-        else:
-            daily = survey.daily
-            if daily == None:
-                daily = '--'
-            profit = survey.profit
-            if profit == None:
-                profit = '--'
-            strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':daily,'profit':profit,'start':start,'end':end}
+        survey = Survey.query.filter_by(strategy_id=id).all()[-1]
+        
+        daily = survey.daily
+        if daily == None:
+            daily = '--'
+        profit = survey.profit
+        if profit == None:
+            profit = '--'
+        strategies[i] = {'name':strategies_[i].name,'status':strategies_[i].status,'daily':daily,'profit':profit,'start':start,'end':end}
 
     return render_template('index.html', strategies = strategies)
 
@@ -155,9 +153,7 @@ def strategy(name):
         survey_ = Survey.query.filter_by(strategy_id=sttg_id).all()
         survey = None
         
-        if survey_ == None:
-            survey = None
-        else:
+        if survey_ != None:
             survey = {'date':list(range(len(survey_))),'daily':list(range(len(survey_))),'profit':list(range(len(survey_))),'sharp':list(range(len(survey_))),'marketValue':list(range(len(survey_))),'enable':list(range(len(survey_))),'benchmark':list(range(len(survey_))),'pullback':list(range(len(survey_))),'alpha':list(range(len(survey_))),'beta':list(range(len(survey_))),'information':list(range(len(survey_))),'fluctuation':list(range(len(survey_)))}
         
             for i in range(len(survey_)):

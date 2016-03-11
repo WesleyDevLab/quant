@@ -151,7 +151,11 @@
 </li>
 <li>
     {% if survey != None %}
+    {% if survey.sharp[-1] == None %}
+    <span class="value">'--'</span>
+    {% else %}
     <span class="value">{{survey.sharp[-1]}}</span>
+    {% endif %}
     {% else %}
     <span class="value">初始化中</span>
     {% endif %}
