@@ -158,9 +158,9 @@ def strategy(name):
         
             for i in range(len(survey_)):
                 survey['date'][i] = int(survey_[i].date.strftime('%s')+'000')
-                survey['daily'][i] = survey_[i].daily
-                survey['profit'][i] = survey_[i].profit
-                survey['sharp'][i] = survey_[i].sharp
+                survey['daily'][i] = round(survey_[i].daily,2)
+                survey['profit'][i] = round(survey_[i].profit,2)
+                survey['sharp'][i] = round(survey_[i].sharp,2)
                 survey['marketValue'][i] = survey_[i].marketValue
                 survey['enable'][i] = survey_[i].enable
                 index = Benchmark.query.filter_by(date=survey_[i].date).first()
@@ -168,11 +168,11 @@ def strategy(name):
                     survey['benchmark'][i] = None
                 else:
                     survey['benchmark'][i] = index.index
-                survey['pullback'][i] = survey_[i].pullback
-                survey['alpha'][i] = survey_[i].alpha
-                survey['beta'][i] = survey_[i].beta
-                survey['information'][i] = survey_[i].information
-                survey['fluctuation'][i] = survey_[i].fluctuation
+                survey['pullback'][i] = round(survey_[i].pullback,2)
+                survey['alpha'][i] = round(survey_[i].alpha,2)
+                survey['beta'][i] = round(survey_[i].beta,2)
+                survey['information'][i] = round(survey_[i].information,2)
+                survey['fluctuation'][i] = round(survey_[i].fluctuation,2)
 
         transfer_ = Transfer.query.filter_by(strategy_id=sttg_id,date_id=Survey.query.filter_by(strategy_id=sttg_id,date=today).first().id).all()
         transfer = None
