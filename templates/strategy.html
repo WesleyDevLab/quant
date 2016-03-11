@@ -130,7 +130,11 @@
             {% if survey.profit[-1] > 0 %}
             <span class="value change-up">+{{survey.profit[-1]}}%</span>
             {% else %}
+            {% if survey.profit[-1] == 0 %}
+            <span class="value">{{survey.profit[-1]}}%</span>
+            {% else %}
             <span class="value change-down">{{survey.profit[-1]}}%</span>
+            {% endif %}
             {% endif %}
         {% else %}
         <span class="value">初始化中</span>
@@ -142,7 +146,11 @@
     {% if survey.daily[-1] > 0 %}
     <span class="value change-up">+{{survey.daily[-1]}}%</span>
     {% else %}
+    {% if survey.daily[-1] == 0 %}
+    <span class="value">{{survey.daily[-1]}}%</span>
+    {% else %}
     <span class="value change-down">{{survey.daily[-1]}}%</span>
+    {% endif %}
     {% endif %}
     {% else %}
     <span class="value">初始化中</span>
@@ -152,7 +160,7 @@
 <li>
     {% if survey != None %}
     {% if survey.sharp[-1] == None %}
-    <span class="value">'--'</span>
+    <span class="value">--</span>
     {% else %}
     <span class="value">{{survey.sharp[-1]}}</span>
     {% endif %}

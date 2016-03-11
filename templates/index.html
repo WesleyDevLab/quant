@@ -108,7 +108,11 @@
         {% if i.daily > 0 %}
         <td><span class="state-rise">{{i.daily}}%</span></td>
         {% else %}
+        {% if i.daily == 0 %}
+        <td><span class="value">{{i.daily}}%</span></td>
+        {% else %}
         <td><span class="state-fall">{{i.daily}}%</span></td>
+        {% endif %}
         {% endif %}
         {% endif %}
         
@@ -118,7 +122,11 @@
         {% if i.profit > 0 %}
         <td><span class="state-rise">{{i.profit}}%</span></td>
         {% else %}
+        {% if i.profit == 0 %}
+        <td><span class="value">{{i.profit}}%</span></td>
+        {% else %}
         <td><span class="state-fall">{{i.profit}}%</span></td>
+        {% endif %}
         {% endif %}
         {% endif %}
         
