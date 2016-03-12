@@ -105,8 +105,6 @@ class Benchmark(db.Model):
 
 @app.route('/')
 def index():
-    today = datetime.date.today()
-
     strategies_ = Strategy.query.all()
     strategies = list(range(len(strategies_)))
     
@@ -140,8 +138,7 @@ def index():
 
 @app.route('/strategy/<name>')
 def strategy(name):
-    today = datetime.date.today()
-    date1 = today
+    today = datetime.date.today().strftime('%Y-%m-%d')
     
     strategy_ = Strategy.query.filter_by(name=name).first()
 
@@ -151,6 +148,7 @@ def strategy(name):
         sttg_id = strategy_.id
 
         survey_ = Survey.query.filter_by(strategy_id=sttg_id).all()
+        dt_id = survey_[-1].id
         survey = None
         
         if survey_ != None:
@@ -204,7 +202,7 @@ def strategy(name):
                 else:
                     survey['fluctuation'][i] = survey_[i].fluctuation
 
-        transfer_ = Transfer.query.filter_by(strategy_id=sttg_id,date_id=Survey.query.filter_by(strategy_id=sttg_id,date=today).first().id).all()
+        transfer_ = Transfer.query.filter_by(strategy_id=sttg_id,date_id=dt_id).all()
         transfer = None
 
         if transfer_ != None:
@@ -225,7 +223,7 @@ def strategy(name):
             
                 transfer[i] = {'ticker':transfer_[i].ticker,'name':transfer_[i].name,'direction':transfer_[i].direction,'orderAmount':transfer_[i].orderAmount,'dealAmount':deal_amount,'orderTime':transfer_[i].orderTime.strftime('%H:%M:%S'),'dealTime':deal_time,'cost':cost,'status':transfer_[i].status}
 
-        positions_ = Position.query.filter_by(strategy_id=sttg_id,date_id=Survey.query.filter_by(strategy_id=sttg_id,date=date1).first().id).all()
+        positions_ = Position.query.filter_by(strategy_id=sttg_id,date_id=dt_id).all()
         positions = None
         
         if positions_ != None:
@@ -233,8 +231,6 @@ def strategy(name):
 
             for i in range(len(positions_)):
                 positions[i] = {'ticker':positions_[i].ticker,'name':positions_[i].name,'amount':positions_[i].amount,'cost':positions_[i].cost,'price':positions_[i].price,'value':positions_[i].value,'increase':positions_[i].increase,'weight':positions_[i].weight}
-
-        today = today.strftime('%Y-%m-%d')
 
         return render_template('test.html',name = name,survey = survey,positions = positions,transfer = transfer,today = today,strategyID = sttg_id)
 
