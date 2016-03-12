@@ -232,7 +232,7 @@ def strategy(name):
             for i in range(len(positions_)):
                 positions[i] = {'ticker':positions_[i].ticker,'name':positions_[i].name,'amount':positions_[i].amount,'cost':positions_[i].cost,'price':positions_[i].price,'value':positions_[i].value,'increase':positions_[i].increase,'weight':positions_[i].weight}
 
-        return render_template('test.html',name = name,survey = survey,positions = positions,transfer = transfer,today = today,strategyID = sttg_id)
+        return render_template('strategy.html',name = name,survey = survey,positions = positions,transfer = transfer,today = today,strategyID = sttg_id)
 
 
 @app.route('/positions', methods = ['POST'])
